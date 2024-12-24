@@ -1,0 +1,52 @@
+1 . 啟動底盤節點:
+ ros2 launch huanyu_robot_start Huanyu_robot_start.launch.py
+
+
+2. 啟動底盤數據LOG到資料庫(需先確認資料庫IP是否正確) : 
+ros2 run cam_test topic_odom_sub
+紀錄值包含
+
+車子6DOF(/odom的XYZ,pitch,yaw(航向角Z),roll)
+車子速度(/cmd_vel的liner_x,liner_y,liner_z,angular_x,angular_y,angular_z)
+車子IMU_RAW未處理角速度(/mobile_base/sensors/imu_data_raw的angular_velocity_x,angular_velocity_y,angular_velocity_z)
+車子輪子Encoder值
+(/robot/MotoEncoder的
+右前輪data[0],
+左前輪data[2],
+左後輪data[4],
+右後輪data[6])
+
+15-2 掃描建圖
+
+步驟二：啟動機器人底盤控制器節點：
+ros2 launch huanyu_robot_start Huanyu_robot_start.launch.py
+
+
+步驟三：啟動slam-toolbox建圖節點
+ros2 launch huanyu_robot_start slam_toolbox_online_sync_launch.py
+
+步驟四：打開Rviz2
+rviz2
+
+步驟7：保存地圖
+cd ~/Desktop/robot_ws/robot_ws/src/huanyu_robot_start/map
+
+然後，保存地圖到目前的目錄下，命令如下：
+ros2 run nav2_map_server map_saver_cli -f map --ros-args -p save_map_timeout:=10000.0
+
+步驟八：編譯工作空間
+cd ~/Desktop/robot_ws/robot_ws
+
+colcon build
+
+
+16-3 導航
+步驟一：啟動底盤控制節點命令
+ros2 launch huanyu_robot_start Huanyu_robot_start.launch.py
+
+步驟二：啟動導航節點
+ros2 launch huanyu_robot_start navigation2.launch.py
+
+步驟三：打開Rviz2
+rviz2
+
